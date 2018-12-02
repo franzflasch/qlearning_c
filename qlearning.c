@@ -47,10 +47,9 @@ static float get_rand(void)
 	 return (float)rand()/(float)RAND_MAX;
 }
 
-static int first_run = 0;
-
 static int get_input_qlearning(void)
 {
+	static int first_run = 1;
 	static int old_score = 0;
 	static int old_state = 0;
 	static int action_taken_index = 0;
@@ -107,8 +106,6 @@ int main (int argc, char *argv[])
 	/* initialize the qtable */
 	qtable_init(&qtable, STATES, ACTIONS);
 	qtable_random(&qtable);
-
-	first_run = 1;
 
 	for(i=0;i<10;i++)
 	{
