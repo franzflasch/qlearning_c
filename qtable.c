@@ -9,9 +9,9 @@ void qtable_init(qtable_td *qtable, int states, int actions)
 	int i = 0;
 	
 	/* allocate qtable with random values */
-	qtable->values = (float**) calloc(states,sizeof(float *));
+	qtable->values = (float**) calloc(states, sizeof(float *));
 	for(i=0;i<states;i++)
-	    qtable->values[i]=(float *) malloc(actions*sizeof(float));
+	    qtable->values[i]=(float *) calloc(actions, sizeof(float));
 
 	qtable->states = states;
 	qtable->actions = actions;

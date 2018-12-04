@@ -14,9 +14,16 @@
 qtable_td qtable = { 0 };
 game_td game = { 0 };
 
+/* Local helpers */
+static float get_rand(void)
+{
+	 return (float)rand()/(float)RAND_MAX;
+}
+
+/* Input function for the user */
 static int get_input(void)
 {
-	int move = 0;
+    int move = 0;
     int character;
     struct termios orig_term_attr;
     struct termios new_term_attr;
@@ -29,24 +36,20 @@ static int get_input(void)
     new_term_attr.c_cc[VMIN] = 0;
     tcsetattr(fileno(stdin), TCSANOW, &new_term_attr);
 
-	while(1)
-	{	
-	    character = fgetc(stdin);
-   		if(character == 'a') { move = MOVE_LEFT; break; }
-   		if(character == 'd') { move = MOVE_RIGHT; break; }
-	}
+    while(1)
+    {	
+        character = fgetc(stdin);
+        if(character == 'a') { move = MOVE_LEFT; break; }
+        if(character == 'd') { move = MOVE_RIGHT; break; }
+    }
 	
     /* restore the original terminal attributes */
     tcsetattr(fileno(stdin), TCSANOW, &orig_term_attr);
 
-	return move;
+    return move;
 }
 
-static float get_rand(void)
-{
-	 return (float)rand()/(float)RAND_MAX;
-}
-
+/* Input function for the AI q-learning player */
 static int get_input_qlearning(void)
 {
 	static int first_run = 1;
@@ -111,6 +114,11 @@ int main (int argc, char *argv[])
 	{
 		qtable_print(&qtable);
 		game_init(&game);
+
+		/* If you want to play yourself, please uncomment  */
+		//game_run(&game, get_input);
+
+		/* AI qlearning player */
 		game_run(&game, get_input_qlearning);
 	}
 }
